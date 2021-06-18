@@ -9,29 +9,6 @@ from tensorflow.keras.layers import Input, Flatten
 from tensorflow.keras.constraints import max_norm
 from tensorflow.keras import backend as K
 
-class ConvNet(nn.Module):
-    def __init__(self, output_size=3):
-        super(ConvNet, self).__init__()
-
-        self.conv1_1 = nn.Conv1d(8, 6, 2, stride=1)
-        self.maxpl_1 = nn.MaxPool1d(2, stride=1)
-        self.conv1_2 = nn.Conv1d(6, 6, 3, stride=1)
-        self.maxpl_2 = nn.MaxPool1d(2, stride=2)
-        self.o2s = nn.Linear(168, output_size)
-        self.softmax = nn.LogSoftmax(dim=1)
-
-
-    def forward(self, input_seq):
-        output = self.conv1_1(input_seq)
-        output = self.maxpl_1(output)
-        output = self.conv1_2(output)
-        output = self.maxpl_2(output)
-        output = output.reshape(-1, 168)
-        output = self.o2s(output)
-        output = self.softmax(output)
-
-        return output
-
 def EEGNet(nb_classes, Chans = 64, Samples = 128,
              dropoutRate = 0.5, kernLength = 64, F1 = 8,
              D = 2, F2 = 16, norm_rate = 0.25, dropoutType = 'Dropout'):
