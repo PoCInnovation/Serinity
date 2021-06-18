@@ -1,8 +1,14 @@
+#!/usr/bin/env python3
 
 from eeglib.helpers import Helper
+from eeglib.wrapper import Wrapper
 import pandas as pd
+import numpy as np
+import argparse
+import time
+import os
 
-def parse_csv(filename):
+def load_csv(filename):
     data = pd.read_csv(filename, skiprows=1,
                        usecols=['EEG.Cz', 'EEG.Fz', 'EEG.Fp1', 'EEG.F7',
                                     'EEG.F3', 'EEG.FC1', 'EEG.C3', 'EEG.FC5',
@@ -12,15 +18,18 @@ def parse_csv(filename):
                                     'EEG.P8', 'EEG.P4', 'EEG.CP2', 'EEG.CP6',
                                     'EEG.T8', 'EEG.FT10', 'EEG.FC6', 'EEG.C4',
                                     'EEG.FC2', 'EEG.F4', 'EEG.F8', 'EEG.Fp2'])
-    print(data)
-    #helper = Helper(data)
-    #for eeg in helper:
-    #    print(eeg.PFD())
+
+    helper = Helper(data.to_numpy()) # WindowSize ? 256 ?
+    return helper
 
 if __name__ == "__main__":
-    parse_csv("data/Test/Test_EPOCFLEX_131982_2021.06.08T10.12.3002.00.md.bp.csv");
-
-#data_filepath = "./data/Test/"
-
-#helper = Helper(data_filepath + "Test_EPOCFLEX_131982_2021.06.08T10.12.3002.00.md.bp.csv")
-
+    parser = argparse.ArgumentParser(description='Script generating dataset (data, label)')
+    parser.add_argument('-f', dest='filename',
+                        type=str, help='Csv file to create the dataset', required=True)
+    parser.add_argument('-o', dest='output_path',
+                        type=str, help='Output file for preprocessed data', required = True)
+    args = parser.parse_args()
+    helper = load_csv(args.filename);
+    for eeg in helper:
+        filename = os.path.join(args.output_path, "data_" + str(time.strftime("%d-%m-%Y_%H-%M")))
+        np.save(filename, eeg.getChannel())
