@@ -9,7 +9,7 @@ from EEGNet import EEGNet
 
 #from mlflow import log_metric, log_param, log_artifacts
 
-LABELS = ['A', 'B']
+LABELS = ['A', 'B', 'C']
 training_data_path = 'data/train'
 validation_data_path = 'data/val'
 model_path = 'models'
@@ -60,4 +60,3 @@ if __name__ == "__main__":
     # loss, accuracy = model.evaluate(test_data, test_labels) get accuracy for test dataset
 
     model.save("models/EEGNet") # model_name + accuracy
-
