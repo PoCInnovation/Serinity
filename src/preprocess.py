@@ -19,7 +19,7 @@ def load_csv(filename):
                                     'EEG.T8', 'EEG.FT10', 'EEG.FC6', 'EEG.C4',
                                     'EEG.FC2', 'EEG.F4', 'EEG.F8', 'EEG.Fp2'])
 
-    helper = Helper(data.to_numpy()) # WindowSize ? 256 ?
+    helper = Helper(data.to_numpy(), windowSize=640)
     return helper
 
 if __name__ == "__main__":
