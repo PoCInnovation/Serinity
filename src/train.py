@@ -45,7 +45,7 @@ if __name__ == "__main__":
     #log_param("LR", learning_rate)
     nb_labels = len(LABELS)
     nb_electrodes = 32
-    samples_every_5_sec = 1312 # Entries every 5 sec
+    samples_every_5_sec = 640 # Entries every 5 sec
 
     cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath="models")
 
