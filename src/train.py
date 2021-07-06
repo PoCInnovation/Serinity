@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
-import os import sklearn import numpy as np
+import os
+import sklearn
+import numpy as np
 import argparse
 import tensorflow as tf
 from EEGNet import EEGNet
+from sklearn.model_selection import train_test_split
 
 #from mlflow import log_metric, log_param, log_artifacts
 
@@ -11,6 +14,10 @@ LABELS = ['A', 'B']
 training_data_path = 'data/train'
 validation_data_path = 'data/validation'
 model_path = 'models'
+
+nb_labels = len(LABELS)
+nb_electrodes = 32
+entries_per_sample = 500 # Nb entries for each sample
 
 def getData(path):
     data = []
@@ -41,19 +48,14 @@ if __name__ == "__main__":
     #print('Loading validation data ...')
     #validation_data, validation_labels = getData(validation_data_path)
 
-    training_data, training_labels = sklearn.utils.shuffle(training_data, training_labels)
-
-#    training_data, traning_labels, test_data, test_labels = sklearn.model_selection.test_train_split(training_data, training_labels, test_size=0.20)
+    training_data, test_data, training_labels, test_labels = train_test_split(training_data, training_labels)
 
     #log_param("EPOCHS", epochs)
     #log_param("LR", learning_rate)
-    nb_labels = len(LABELS)
-    nb_electrodes = 32
-    samples_every_5_sec = 500 # Entries every 5 sec
 
-    cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath="models")
+    cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath="models/")
 
-    model = EEGNet(nb_classes=nb_labels, Chans=nb_electrodes, Samples=samples_every_5_sec)
+    model = EEGNet(nb_classes=nb_labels, Chans=nb_electrodes, Samples=entries_per_sample)
 
     #Binary crossentropy (two labels)
     model.compile(loss = 'binary_crossentropy', optimizer = 'Adam',
@@ -62,7 +64,7 @@ if __name__ == "__main__":
     model.fit(tf.expand_dims(training_data, 3),
               tf.keras.utils.to_categorical(training_labels, 2), callbacks=[cp_callback], epochs=50)
 
-    loss, accuracy = model.evaluate(tf.expand_dims(training_data, 3),
-                                    tf.keras.utils.to_categorical(training_labels, 2))
+    loss, accuracy = model.evaluate(tf.expand_dims(test_data, 3),
+                                    tf.keras.utils.to_categorical(test_labels, 2))
 
     model.save("models/EEGNet_accuracy_" + str(accuracy))
