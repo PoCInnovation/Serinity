@@ -29,7 +29,8 @@ Most of this processes are automated using EEG library, which will be explained 
 Listes des processes
 
 ## How datasets were made
-All datasets used were made by an amazing student named [Paul](https://github.com/PaulAncey), he gives his head to science and that what makes him an hero.
+All datasets used were made by an amazing student named [Paul](https://github.com/PaulAncey), he gives his head to science and that what makes him an hero.\
+They can be public with his agreement.
 
 # Our parcour
 As normal Epitech students, we discover and learn the world of brainwaves analysis and electroencephalography with this project, and that is undoubtely the fact we got some difficulties. This project was extremely interessting in its form with no doubt, but was really difficult to abord in its background. We discover for the majority how AI works with this project, and mostly tries to figures out what everything means. Here's the reason why we would like to recommend you some specific resources that can help discover the amazing world of Electroencephalography (EEG is simpler) :
