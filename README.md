@@ -12,12 +12,19 @@ Documentations\
 Used libs
 
 # Introduction
-Serinity is a simple letter recognition trial made to discover EEG by 3 students. It can mainly serve as a documentation now and a good start to EEG and brainwaves analysis.\
-We'll trace our path to get everything we came accross for a better understanding.
+Serinity is a simple mind letter recognition system made to discover EEG by 3 students, or in other term, it transposes the letter we think about (Visually as an image) into an extern program.\
+This program can mainly serve as a documentation and a good start to EEG and brainwaves analysis now and less as a pratical use.\
+We'll trace our path to get everything we came accross for a better understanding and I hope a better approch to make this abordable.
 
-## What does it do concretely ?
-The program itself get the data from the headset, preprocesses and then process it using a CNN model.
+⚠️ The used trained model (IA) might not work correctly on other people due to our lack of data. This can surely be upgraded using crossfit training and wider data.
+
+## What does our program do concretely ?
+
+
 ## How it works
+The program itself get the data from the headset using [LSL](https://labstreaminglayer.readthedocs.io/info/intro.html), preprocesses and then process it using a CNN model.
+
+
 
 ## Maintainers
 [David](https://github.com/Davphla)\
