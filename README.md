@@ -20,8 +20,9 @@ We'll trace our path to get everything we came accross for a better understandin
 
 ## What does our program do concretely ?
 Our program takes data (after its training), and deduct the letter on the screen, and in the better state create clear words.\
-This will be more clearly decided later on.\
-<a href="https://ibb.co/Fq2jjhz"><img src="https://i.ibb.co/4gz55Fp/Sans-titre.png" alt="Sans-titre" border="0" /></a>
+This will be more clearly decided later on.
+
+<a href="https://ibb.co/MCSK9J7"><img src="https://i.ibb.co/3CdVkPc/Sans-titre.png" alt="Sans-titre" border="0" /></a>
 
 ## How it works
 The program itself get the data from the headset using [LSL](https://labstreaminglayer.readthedocs.io/info/intro.html) or older data, preprocesses to make the data clearer and more usable and then process it using a CNN model.\
