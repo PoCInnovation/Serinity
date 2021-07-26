@@ -49,6 +49,6 @@ As normal Epitech students, we discover and learn the world of brainwaves analys
 * [MNE tools](https://mne.tools/stable/auto_tutorials/intro/10_overview.html)
 
 ## Maintainers
-[David](https://github.com/Davphla)\
 [Alexis](https://github.com/GaliMouette)\
-[Théo](J'ai Pas trouvé)
+[David](https://github.com/Davphla)\
+[Théo](https://github.com/Tfourcat)
