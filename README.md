@@ -4,13 +4,11 @@ A simple introduction to EEG using mind letter recognition.
 Hardware used : [Epoc Flex](https://www.emotiv.com/product/epoc-flex-gel-sensor-kit/)
 
 # Table of Content
-[Introduction](#Introduction)  
-Quickstart\
-What it does concretely\
-How it works\
-Datasets\
-Documentations\
-Used libs
+[Introduction](#Introduction)\
+[Quickstart](#Quickstart)\
+[How it works](#How it works)\
+[Our parcour](#Our parcour)\
+[Documentations](#Artificial Intelligence)\
 
 # Introduction
 Serinity is a simple mind letter recognition system made to discover EEG by 3 students, or in other term, it transposes the letter we think about (Visually as an image) into an extern program.\
@@ -18,14 +16,6 @@ This program can mainly serve as a documentation and a good start to EEG and bra
 We'll trace our path to get everything we came accross for a better understanding and I hope a better approch to make this abordable.
 
 ⚠️ The used trained model (AI) might not work correctly on other people due to our lack of data. This can surely be upgraded using crossfit training and wider data.
-
-
-##### Table of Contents  
-[Introduction](#Introduction)  
-[Emphasis](#emphasis)  
-...snip...    
-<a name="Introduction"/>
-## Headers
 
 ## What does our program do concretely ?
 Our program takes data (after its training), and deduct the letter on the screen, and in the better state create clear words.\
