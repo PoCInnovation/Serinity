@@ -5,6 +5,7 @@ Hardware used : [Epoc Flex](https://www.emotiv.com/product/epoc-flex-gel-sensor-
 
 # Table of Content
 Introduction\
+Quickstart\
 What it does concretely\
 How it works\
 Datasets\
@@ -17,6 +18,14 @@ This program can mainly serve as a documentation and a good start to EEG and bra
 We'll trace our path to get everything we came accross for a better understanding and I hope a better approch to make this abordable.
 
 ⚠️ The used trained model (AI) might not work correctly on other people due to our lack of data. This can surely be upgraded using crossfit training and wider data.
+
+
+##### Table of Contents  
+[Introduction](#Introduction)  
+[Emphasis](#emphasis)  
+...snip...    
+<a name="Introduction"/>
+## Headers
 
 ## What does our program do concretely ?
 Our program takes data (after its training), and deduct the letter on the screen, and in the better state create clear words.\
