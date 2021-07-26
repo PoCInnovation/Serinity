@@ -6,7 +6,7 @@ Hardware used : [Epoc Flex](https://www.emotiv.com/product/epoc-flex-gel-sensor-
 # Table of Content
 [Introduction](#Introduction)\
 [Quickstart](#Quickstart)\
-[How it works](#How it works)\
+[How it works](#How_it_works)\
 [Our parcour](#Our parcour)\
 [Documentations](#Artificial Intelligence)\
 
