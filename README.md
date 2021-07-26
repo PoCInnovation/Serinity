@@ -4,7 +4,7 @@ A simple introduction to EEG using mind letter recognition.
 Hardware used : [Epoc Flex](https://www.emotiv.com/product/epoc-flex-gel-sensor-kit/)
 
 # Table of Content
-Introduction\
+[Introduction](#Introduction)  
 Quickstart\
 What it does concretely\
 How it works\
