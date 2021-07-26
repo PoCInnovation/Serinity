@@ -7,8 +7,8 @@ Hardware used : [Epoc Flex](https://www.emotiv.com/product/epoc-flex-gel-sensor-
 [Introduction](#Introduction)\
 [Quickstart](#Quickstart)\
 [How it works](#How-it-works)\
-[Our parcour](#Our parcour)\
-[Documentations](#Artificial Intelligence)\
+[Our parcour](#Our-parcour)\
+[Documentations](#Artificial-Intelligence)\
 
 # Introduction
 Serinity is a simple mind letter recognition system made to discover EEG by 3 students, or in other term, it transposes the letter we think about (Visually as an image) into an extern program.\
