@@ -6,7 +6,7 @@ import tensorflow as tf
 from EEGNet import EEGNet
 from sklearn.model_selection import train_test_split
 
-#from mlflow import log_metric, log_param, log_artifacts
+# from mlflow import log_metric, log_param, log_artifacts
 
 LABELS = ['A', 'B', 'C', 'D', 'E']
 training_data_path = 'data/train'
@@ -14,7 +14,8 @@ model_path = 'models'
 
 nb_labels = len(LABELS)
 nb_electrodes = 32
-entries_per_sample = 500 # Nb entries for each sample
+entries_per_sample = 500  # Nb entries for each sample
+
 
 def getData(path):
     data = []
@@ -30,7 +31,7 @@ def getData(path):
             for sample in splited_data:
                 data.append(sample)
                 labels.append(tf.constant(label_nb))
-    
+
     print('Loaded:', len(data), 'samples', '\nShape:', data[0].shape, '\n\n------\n\n')
     return data, labels
 
@@ -42,15 +43,15 @@ if __name__ == "__main__":
 
     training_data, test_data, training_labels, test_labels = train_test_split(training_data, training_labels)
 
-    #log_param("EPOCHS", epochs)
-    #log_param("LR", learning_rate)
+    # log_param("EPOCHS", epochs)
+    # log_param("LR", learning_rate)
 
     cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath="models/save")
 
     model = EEGNet(nb_classes=nb_labels, Chans=nb_electrodes, Samples=entries_per_sample)
 
     model.compile(loss='categorical_crossentropy', optimizer='Adam',
-                    metrics=['accuracy'])
+                  metrics=['accuracy'])
 
     model.fit(tf.expand_dims(training_data, 3),
               tf.keras.utils.to_categorical(training_labels, len(LABELS)), callbacks=[cp_callback], epochs=50)
