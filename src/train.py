@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 
 # from mlflow import log_metric, log_param, log_artifacts
 
-LABELS = ['A', 'B', 'C', 'D', 'E']
+LABELS = ['A', 'B', 'C', 'D']
 training_data_path = 'data/train'
 model_path = 'models'
 
@@ -46,15 +46,14 @@ if __name__ == "__main__":
     # log_param("EPOCHS", epochs)
     # log_param("LR", learning_rate)
 
-    cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath="models/save")
-
     model = EEGNet(nb_classes=nb_labels, Chans=nb_electrodes, Samples=entries_per_sample)
 
     model.compile(loss='categorical_crossentropy', optimizer='Adam',
                   metrics=['accuracy'])
 
+    print(tf.expand_dims(training_data, 3).shape)
     model.fit(tf.expand_dims(training_data, 3),
-              tf.keras.utils.to_categorical(training_labels, len(LABELS)), callbacks=[cp_callback], epochs=50)
+              tf.keras.utils.to_categorical(training_labels, len(LABELS)), epochs=50)
 
     loss, accuracy = model.evaluate(tf.expand_dims(test_data, 3),
                                     tf.keras.utils.to_categorical(test_labels, len(LABELS)))
