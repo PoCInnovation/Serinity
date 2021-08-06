@@ -7,18 +7,8 @@ import threading
 
 # https://labstreaminglayer.readthedocs.io/
 
-# Training params
-
-LABELS = ['A', 'B', 'C', 'D', 'E']
-training_data_path = 'data/train'
-
-# Model params
-
-model_path = '../models/EEGNet_labels_5_accuracy_0.4117647111415863'
-
-nb_labels = len(LABELS)
-nb_electrodes = 32
-entries_per_sample = 500  # Nb entries for each sample
+LABELS = ['A', 'B', 'C']
+model_path = '../models/EEGNet_labels_3_accuracy_0.4571428596973419'
 
 
 class Application(threading.Thread):
