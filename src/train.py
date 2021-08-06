@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 
 # from mlflow import log_metric, log_param, log_artifacts
 
-LABELS = ['A', 'B', 'C', 'D']
+LABELS = ['A', 'B', 'C']
 training_data_path = 'data/train'
 model_path = 'models'
 
