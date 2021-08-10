@@ -1,69 +1,66 @@
-from tkinter import ttk
-
-from pylsl import StreamInlet, resolve_stream
-from EEGNet import EEGNet
-import tkinter as tk
 import threading
+import time
+from tkinter import *
+from tkinter import ttk, messagebox
+
+import numpy as np
+import tensorflow as tf
+from pylsl import StreamInlet, resolve_stream
 
 # https://labstreaminglayer.readthedocs.io/
 
 LABELS = ['A', 'B', 'C']
 model_path = '../models/EEGNet_labels_3_accuracy_0.4571428596973419'
 
-
-class Application(threading.Thread):
+class Application(Tk):
     def __init__(self):
-        threading.Thread.__init__(self)
-        self.start()
-        self.root = 0
+        Tk.__init__(self)
+        self._start_predict = False
+        self.params()
+        self.theme()
+        self._thread = threading.Thread(target=self.init_lsl)
+        self._thread.start()
+
+    @staticmethod
+    def predict(data, model):
+        probabilities = model.predict(tf.expand_dims(data, 3))
+        predicted_indices = tf.argmax(probabilities, 1)
+        return tf.gather(LABELS, predicted_indices)
+
+    def init_lsl(self):
+        print("looking for an EEG stream...")
+        model = tf.keras.models.load_model(model_path)
+        streams = resolve_stream('type', 'EEG')
+        inlet = StreamInlet(streams[0])
+        print("EEG stream located !", end="\r")
+        data = []
+        while True:
+            sample, timestamp = inlet.pull_sample()
+            data.append(sample)
+            if self._start_predict:
+                print("ALOALO")
+                self.predict(data, model)
+                self._start_predict = False
 
     def callback(self):
-        self.root.quit()
-
-    def theme(self):
-        self.root.tk.call('lappend', 'auto_path', "./awthemes-10.4.0")
-        self.root.tk.call('package', 'require', 'awdark')
-        s = ttk.Style()
-        s.theme_names()
-        # s.theme_use('aqua')
+        self._start_predict = True
 
     def params(self):
-        mainframe = ttk.Frame(self.root, padding="3 3 12 12")
-        mainframe.grid(column=0, row=0, sticky=(tk.N, tk.W, tk.E, tk.S))
-        self.root.title("Serinity")
-        self.root.columnconfigure(0, weight=1)
-        self.root.rowconfigure(0, weight=1)
-        feet_entry = ttk.Button(mainframe, width=30)
-        feet_entry.grid(column=2, row=1, sticky=(tk.W, tk.E))
+        self.title("Serinity - Lab Streaming Layer")
+        self.geometry("600x400")
 
-    def run(self):
-        self.root = tk.Tk()
-        # self.theme()
-        self.params()
-        self.root.protocol("WM_DELETE_WINDOW", self.callback)
+        mainframe = ttk.Frame(self, borderwidth=5, relief="ridge", width=200, height=100)
+        mainframe.grid(column=0, row=0)
+        ttk.Label(mainframe, text="test").grid(row=1)
+        ttk.Button(mainframe, command=self.callback).grid(row=0)
 
-        self.root.mainloop()
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
 
-
-def predict(data):
-    probabilities = model.predict(tf.expand_dims(data, 3))
-    predicted_indices = tf.argmax(probabilities, 1)
-    reteurn tf.gather(LABELS, predicted_indices)
-
-def real_time(model):
-    app = Application()
-    print("looking for an EEG stream...")
-    streams = resolve_stream('type', 'EEG')
-    inlet = StreamInlet(streams[0])
-    data = []
-    while True:
-        sample, timestamp = inlet.pull_sample()
-        data.append(sample)
-        if np.shape(data)[0] == 20000:
-            predited_letter = predict(data);
-        print(timestamp, sample)
+    def theme(self):
+        self.tk.call('lappend', 'auto_path', "./awthemes-10.4.0")
+        self.tk.call('package', 'require', 'awdark')
 
 
 if __name__ == '__main__':
-    model = tf.keras.models.load_model(model_path)
-    real_time(model)
+    Application().mainloop()
