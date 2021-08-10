@@ -38,7 +38,6 @@ class Application(Tk):
             sample, timestamp = inlet.pull_sample()
             data.append(sample)
             if self._start_predict:
-                print("ALOALO")
                 self.predict(data, model)
                 self._start_predict = False
 
