@@ -12,14 +12,24 @@ from pylsl import StreamInlet, resolve_stream
 LABELS = ['A', 'B', 'C']
 model_path = '../models/EEGNet_labels_3_accuracy_0.4571428596973419'
 
+
 class Application(Tk):
     def __init__(self):
         Tk.__init__(self)
+        self.title("Serinity - Lab Streaming Layer")
+        self.geometry("600x400")
         self._start_predict = False
-        self.params()
-        self.theme()
+        self._mainframe = None
+        self.init_theme()
+        self.init_params()
         self._thread = threading.Thread(target=self.init_lsl)
-        self._thread.start()
+        try:
+            self._thread.start()
+        finally:
+            self._progress_bar.stop()
+            self._progress_bar["mode"] = "determinate"
+            self._progress_bar["value"] = 100
+            self._label["text"] = "An error as occured"
 
     @staticmethod
     def predict(data, model):
@@ -44,22 +54,29 @@ class Application(Tk):
     def callback(self):
         self._start_predict = True
 
-    def params(self):
-        self.title("Serinity - Lab Streaming Layer")
-        self.geometry("600x400")
+    def init_main_widget(self):
+        mainframe = self._mainframe
+        input_button = ttk.Button(mainframe, command=self.callback)
+        input_button.grid(row=0)
 
-        mainframe = ttk.Frame(self, borderwidth=5, relief="ridge", width=200, height=100)
+    def init_params(self):
+        self._mainframe = ttk.Frame(self, borderwidth=5, relief="ridge", width=200, height=100)
+        mainframe = self._mainframe
+
         mainframe.grid(column=0, row=0)
-        ttk.Label(mainframe, text="test").grid(row=1)
-        ttk.Button(mainframe, command=self.callback).grid(row=0)
+        self._label = ttk.Label(mainframe, text="Looking for an EEG stream")
+        self._label.grid(row=1)
+        self._progress_bar = ttk.Progressbar(mainframe, mode="indeterminate")
+        self._progress_bar.grid(row=2)
+        self._progress_bar.start(10)
 
+        # ttk.Notebook(mainframe).grid(row=5)
         self.columnconfigure(0, weight=1)
         self.rowconfigure(0, weight=1)
 
-    def theme(self):
+    def init_theme(self):
         self.tk.call('lappend', 'auto_path', "./awthemes-10.4.0")
         self.tk.call('package', 'require', 'awdark')
-
 
 if __name__ == '__main__':
     Application().mainloop()
