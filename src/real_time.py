@@ -4,6 +4,9 @@ from tkinter import *
 from tkinter import ttk, messagebox
 from tkinter.font import Font
 
+import numpy
+import seaborn as sns
+
 import numpy as np
 import tensorflow as tf
 from pylsl import StreamInlet, resolve_stream
@@ -11,7 +14,7 @@ from pylsl import StreamInlet, resolve_stream
 # https://labstreaminglayer.readthedocs.io/
 
 LABELS = ['A', 'B', 'C']
-model_path = '../models/EEGNet_labels_3_accuracy_0.4571428596973419'
+model_path = '../data/models/EEGNet_labels_1_accuracy_1.0'
 
 
 class Application(Tk):
@@ -44,6 +47,7 @@ class Application(Tk):
 
     @staticmethod
     def predict(data, model):
+
         probabilities = model.predict(tf.expand_dims(data, 3))
         predicted_indices = tf.argmax(probabilities, 1)
         return tf.gather(LABELS, predicted_indices)
@@ -74,6 +78,10 @@ class Application(Tk):
     def callback(self):
         self._start_predict = True
 
+    def callback_reset_button(self):
+        self.sentences_label["text"] = ""
+        self.letter_label["text"] = ""
+
     def init_main_widget(self):
         self._mainframe.destroy()
         self._state = 1
@@ -83,6 +91,9 @@ class Application(Tk):
         self.input_button = ttk.Button(mainframe, command=self.callback, text="Predict")
         self.input_button.grid(row=3, pady=20)
         self.input_button["state"] = "disabled"
+
+        self.reset_button = ttk.Button(mainframe, command=self.callback_reset_button, text="Reset")
+        self.reset_button.grid(row=4)
 
         sentences_label_frame = ttk.LabelFrame(mainframe, text="Thought", labelanchor=N)
         sentences_label_frame.grid(row=2, padx=20, pady=25)
