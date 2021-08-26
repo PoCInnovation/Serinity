@@ -48,7 +48,7 @@ class Application(Tk):
     @staticmethod
     def predict(data, model):
 
-        probabilities = model.predict(tf.expand_dims(data, 3))
+        probabilities = model.predict(tf.expand_dims(data, 2))
         predicted_indices = tf.argmax(probabilities, 1)
         return tf.gather(LABELS, predicted_indices)
 
