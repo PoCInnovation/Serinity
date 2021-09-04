@@ -7,6 +7,9 @@ from tkinter.font import Font
 import numpy
 import seaborn as sns
 
+import mne
+import matplotlib.pyplot as plt
+
 import numpy as np
 import tensorflow as tf
 from pylsl import StreamInlet, resolve_stream
@@ -14,7 +17,7 @@ from pylsl import StreamInlet, resolve_stream
 # https://labstreaminglayer.readthedocs.io/
 
 LABELS = ['A', 'B', 'C']
-model_path = '../data/models/EEGNet_labels_1_accuracy_1.0'
+model_path = '../data/models/EEGNet_labels_3_accuracy_0.4166666567325592'
 
 
 class Application(Tk):
@@ -45,12 +48,11 @@ class Application(Tk):
                 self.input_button["text"] = "An error as occured"
                 self.input_button["state"] = "disabled"
 
-    @staticmethod
-    def predict(data, model):
-
-        probabilities = model.predict(tf.expand_dims(data, 2))
+    def predict(self, data, model):
+        data = tf.convert_to_tensor(data)
+        probabilities = model.predict(tf.expand_dims(tf.expand_dims(tf.transpose(data[-500:, :32]), 0), 3))
         predicted_indices = tf.argmax(probabilities, 1)
-        return tf.gather(LABELS, predicted_indices)
+        return str(tf.gather(LABELS, predicted_indices).numpy()[0].decode('UTF-8'))
 
     def init_lsl(self):
         print("looking for an EEG stream...")
@@ -63,7 +65,7 @@ class Application(Tk):
         while True:
             sample, timestamp = inlet.pull_sample()
             data.append(sample)
-            if len(data) > 1000:
+            if len(data) > 500:
                 self.input_button["state"] = "normal"
             if self._start_predict:
                 prediction = self.predict(data, model)
@@ -97,9 +99,9 @@ class Application(Tk):
 
         sentences_label_frame = ttk.LabelFrame(mainframe, text="Thought", labelanchor=N)
         sentences_label_frame.grid(row=2, padx=20, pady=25)
-        self.sentences_label = ttk.Label(sentences_label_frame, text="HELLO", font=self.font)
+        self.sentences_label = ttk.Label(sentences_label_frame, text="", font=self.font)
         self.sentences_label.grid(column=0, padx=20, pady=10)
-        self.letter_label = ttk.Label(sentences_label_frame, text="A", font=Font(family='Helvetica', size=16, weight='bold'))
+        self.letter_label = ttk.Label(sentences_label_frame, text="", font=Font(family='Helvetica', size=16, weight='bold'))
         self.letter_label.grid(row=1, padx=20, pady=10)
 
     def init_loading(self):
@@ -113,8 +115,7 @@ class Application(Tk):
         self._progress_bar.start(10)
 
     def init_theme(self):
-        self.tk.call('lappend', 'auto_path', "./awthemes-10.4.0")
-        self.tk.call('package', 'require', 'awdark')
+        pass
 
 
 if __name__ == '__main__':

@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 
 # from mlflow import log_metric, log_param, log_artifacts
 
-LABELS = ['A']
+LABELS = ['A', 'B', 'C']
 training_data_path = '../data/train'
 model_path = '../data/models'
 
@@ -58,4 +58,4 @@ if __name__ == "__main__":
     loss, accuracy = model.evaluate(tf.expand_dims(test_data, 3),
                                     tf.keras.utils.to_categorical(test_labels, len(LABELS)))
 
-    model.save("models/EEGNet_labels_" + str(len(LABELS)) + "_accuracy_" + str(accuracy))
+    model.save("models/AEEGNet_labels_" + str(len(LABELS)) + "_accuracy_" + str(accuracy))
